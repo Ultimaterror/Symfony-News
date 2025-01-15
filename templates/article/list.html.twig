@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Articles{% endblock %}
+
+{% block body %}
+<style>
+
+</style>
+
+<div class="articles-list">
+    {% if articles %}
+    <ul>
+        {% for article in articles %}
+        <li>
+            {% include 'article/link.html.twig' with {'article': article} %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Aucun article trouvé</p>
+    {% endif %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catégorie {{category.name}}{% endblock %}
+
+{% block body %}
+<style>
+</style>
+
+<div class="category-item">
+    <h1>{{ category.name }}</h1>
+    {% if category.articles %}
+    <ul>
+        {% for article in category.articles %}
+        <li>
+            {% include 'article/link.html.twig' with {'article': article} %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Aucun article trouvé</p>
+    {% endif %}
+</div>
+{% endblock %}

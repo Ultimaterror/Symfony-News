@@ -1,0 +1,36 @@
+## Bien penser au jointures
+- **CRUD *! VoteOn !***
+    - **Articles *! Roles !***
+    - **Catégories *! Admin !***
+    - Commentaires *! Admin peuvent supprimer !*
+- **Articles**
+    - **auteur *(Penser à la suppression du User)***
+    - **Date publication**
+    - Cron pour publier à la date
+- **Pagination (page d'accueil)**
+- **Recherche par**
+    - **Catégorie *[Select]***
+    - Titre
+    - Tags ? *(Si oui -> Entity)* *[Select multiple]*
+- **Load petit à petit *[Infinite Scroll]*** *(page recherche)*
+    - ***Mode API***
+- **Auth**
+    - make:security:form-login
+    - make:registration-form
+- **Roles** : **Admin**, Author *(Entity ?) (Penser à la suppression du User)*
+- **VoteOn**
+- **Validateurs**
+- **Slug** *(Unique)* *Composant Symfony ou Doctrine*
+- Essayer d'avoir une version fullstack + api qui font exactement la même chose
+- Valeur par défaut pour la BDD *(Doctrine extension timestampable)*
+    - createdAt & updatedAt automatique : https://symfonycasts.com/screencast/symfony4-doctrine/timestampable
+- Commentaires *(Penser à la suppression du User)*
+    - Anonyme ? *(Conflit avec suppression ?)*
+- Notes *(Avg & Count) [min:1 max:5]* 
+    - Articles *(Entity)*
+    - Commentaires ? *(Entity)*
+- Articles Premium
+    - Paiement
+- Mail
+    - Validation
+    - Mot de passe oublié

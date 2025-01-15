@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catégories{% endblock %}
+
+{% block body %}
+<style>
+</style>
+
+<div class="category-list">
+    {% for category in categories %}
+    <div class="col">
+        {% include 'category/card.html.twig' with {'category': category} %}
+    </div>
+    {% else %}
+    <div>Aucune catégorie trouvée</div>
+    {% endfor %}
+    {# {% if categories %}
+    <ul>
+        {% for category in categories %}
+        <li>
+            {{ category.name }}
+            {% if category.articles|length %}
+            ({{ category.articles|length }} articles)
+            {% else %}
+            (0 article)
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Aucun catégorie trouvée</p>
+    {% endif %} #}
+</div>
+{% endblock %}
