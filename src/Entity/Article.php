@@ -9,9 +9,23 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Attribute\Groups;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use App\State\ArticleSetOwnerProcessor;
 
-// #[Assert\]
 #[ApiResource(
+    operations: [
+        new GetCollection(uriTemplate: "/public/articles"),
+        new Post(security: "is_granted('ROLE_WRITER') or is_granted('ROLE_ADMIN')"),
+        new Get(uriTemplate: "/public/articles/{id}"),
+        // new Get(),
+        new Put(security: "is_granted('ROLE_ADMIN') or object.author == user", securityPostDenormalize: "is_granted('ROLE_ADMIN') or object.author == user"),
+        new Delete(security: "is_granted('ROLE_ADMIN') or object.author == user"),
+    ],
     normalizationContext: ['groups' => ['articles:read']],
     denormalizationContext: ['groups' => ['articles:write']]
 )]
@@ -35,14 +49,12 @@ class Article
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Length(min: 5, max: 200)]
-    #[Assert\Type('string')]
+    #[Assert\Length(min: 5, max: 200), Assert\Type('string')]
     #[Groups(['articles:read', "articles:write", 'categories:read'])]
     private ?string $title = "";
 
     #[ORM\Column(type: Types::TEXT)]
-    #[Assert\Type('string')]
-    #[Assert\NotBlank]
+    #[Assert\Type('string'), Assert\NotBlank]
     #[Groups(['articles:read', "articles:write"])]
     private ?string $content = null;
 
@@ -54,12 +66,18 @@ class Article
     #[ORM\ManyToOne(inversedBy: 'articles')]
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['articles:read', "articles:write"])]
+    #[Assert\NotBlank]
     private ?Category $category = null;
 
     #[ORM\Column(length: 255, unique: true)]
     #[Gedmo\Slug(fields: ["title"])]
     #[Groups(['articles:read', 'categories:read'])]
     private ?string $slug = null;
+
+    #[ORM\ManyToOne(inversedBy: 'articles')]
+    #[Groups('articles:read')]
+    #[Assert\Valid]
+    private ?User $author = null;
 
     public function getId(): ?int
     {
@@ -146,6 +164,18 @@ class Article
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): static
+    {
+        $this->author = $author;
 
         return $this;
     }

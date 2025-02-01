@@ -10,8 +10,23 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Attribute\Groups;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 
 #[ApiResource(
+    operations: [
+        new GetCollection(uriTemplate: "/public/categories"),
+        new Post(security: "is_granted('ROLE_ADMIN')"),
+        new Get(uriTemplate: "/public/categories/{id}", normalizationContext: ['groups' => ['category:read']]),
+        new Put(security: "is_granted('ROLE_ADMIN')"),
+        new Delete(security: "is_granted('ROLE_ADMIN')"),
+    ],
     normalizationContext: ['groups' => ['categories:read']],
     denormalizationContext: ['groups' => ['categories:write']]
 )]
@@ -25,27 +40,20 @@ class Category
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Length(
-        min: 2,
-        max: 255
-    )]
-    #[Assert\Type('string')]
-    #[Groups(['categories:read', 'articles:read'])]
+    #[Assert\Length(min: 2, max: 255), Assert\Type('string')]
+    #[Groups(['categories:read', 'category:read', 'articles:read', 'categories:write'])]
     private ?string $name = null;
 
     /**
      * @var Collection<int, Article>
      */
     #[ORM\OneToMany(targetEntity: Article::class, mappedBy: 'category')]
-    #[Groups('categories:read')]
+    #[Groups('category:read')]
     private Collection $articles;
 
     #[ORM\Column(length: 255, unique: true)]
     #[Gedmo\Slug(fields: ["name"])]
-    #[Assert\Length(min: 5, max: 255)]
-    #[Assert\Unique]
-    #[Assert\Type('string')]
-    #[Groups(['categories:read', 'articles:read'])]
+    #[Groups(['categories:read', 'category:read', 'articles:read'])]
     private ?string $slug = null;
 
     public function __construct()
@@ -63,7 +71,6 @@ class Category
         return $this->name;
     }
 
-    #[Groups("categories:write")]
     public function setName(string $name): static
     {
         $this->name = $name;

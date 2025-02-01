@@ -1,36 +1,55 @@
 ## Bien penser au jointures
-- **CRUD *! VoteOn !***
-    - **Articles *! Roles !***
-    - **Catégories *! Admin !***
-    - Commentaires *! Admin peuvent supprimer !*
-- **Articles**
-    - **auteur *(Penser à la suppression du User)***
-    - **Date publication**
-    - Cron pour publier à la date
-- **Pagination (page d'accueil)**
-- **Recherche par**
-    - **Catégorie *[Select]***
-    - Titre
-    - Tags ? *(Si oui -> Entity)* *[Select multiple]*
-- **Load petit à petit *[Infinite Scroll]*** *(page recherche)*
-    - ***Mode API***
-- **Auth**
-    - make:security:form-login
-    - make:registration-form
-- **Roles** : **Admin**, Author *(Entity ?) (Penser à la suppression du User)*
-- **VoteOn**
-- **Validateurs**
-- **Slug** *(Unique)* *Composant Symfony ou Doctrine*
-- Essayer d'avoir une version fullstack + api qui font exactement la même chose
-- Valeur par défaut pour la BDD *(Doctrine extension timestampable)*
-    - createdAt & updatedAt automatique : https://symfonycasts.com/screencast/symfony4-doctrine/timestampable
-- Commentaires *(Penser à la suppression du User)*
-    - Anonyme ? *(Conflit avec suppression ?)*
-- Notes *(Avg & Count) [min:1 max:5]* 
-    - Articles *(Entity)*
-    - Commentaires ? *(Entity)*
-- Articles Premium
-    - Paiement
-- Mail
-    - Validation
-    - Mot de passe oublié
+- [ ] **CRUD *! Access control (VoteOn) !***
+    - [x] **Articles**
+    - [x] **Catégories**
+    - [x] **Users**
+    - [ ] Commentaires
+    - [ ] Tags
+- [ ] **Articles**
+    - [x] **Auteur *(Penser à la suppression du User)***
+    - [ ] **Rendre visible seulement ceux dont visibility est à true**
+    - [ ] **Date publication  *(DateTime)***
+    - [ ] Cron pour publier à la date et heure
+- [ ] **Pagination (page d'accueil)**
+    - [x] **Api**
+    - [ ] Fullstack
+- [ ] **Recherche par**
+    - [ ] **Catégorie *[Select]***
+    - [ ] Titre
+    - [ ] Tags ? *(Si oui -> Entity)* *[Select multiple]*
+- [ ] **Load petit à petit *[Infinite Scroll]*** *(page recherche)*
+    - [ ] ***Mode API***
+    - [ ] Fullstack *(Ajax)*
+- [ ] **Auth**
+    - [x] **Api *(JWT)***
+    - [ ] Fullstack
+        - [ ] make:security:form-login
+        - [ ] make:registration-form
+- [x] **Roles** : **Admin**, Author *(Entity ?) (Penser à la suppression du User)*
+- [ ] **Access control (VoteOn)**
+    - [ ] **Articles *! Roles !***
+    - [x] **Catégories *! Admin !***
+    - [x] **Users *! Roles !***
+    - [ ] Commentaires *! Admin peuvent supprimer !*
+    - [ ] Tags *! Admin !*
+- [ ] **Validateurs**
+    - [x] **Articles**
+    - [x] **Catégories**
+    - [x] **Users**
+    - [ ] Commentaires
+    - [ ] Tags
+- [x] **Slug** *(Unique)* *Composant Symfony ou Doctrine*
+- [x] **Data Fixtures**
+- [ ] Essayer d'avoir une version fullstack + api qui font exactement la même chose
+- [ ] Valeur par défaut pour la BDD *(Doctrine extension timestampable)*
+    - [ ] createdAt & updatedAt automatique : https://symfonycasts.com/screencast/symfony4-doctrine/timestampable
+- [ ] Commentaires *(Penser à la suppression du User)*
+    - [ ] Anonyme ? *(Conflit avec suppression ?)*
+- [ ] Notes *(Avg & Count) [min:1 max:5]* 
+    - [ ] Articles *(Entity)*
+    - [ ] Commentaires ? *(Entity)*
+- [ ] Articles Premium
+    - [ ] Paiement
+- [ ] Mail
+    - [ ] Validation
+    - [ ] Mot de passe oublié
